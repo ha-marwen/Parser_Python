@@ -1,0 +1,39 @@
+programmes = prog id ; declaration instruction_composee
+
+declaration = declaration_var declaration_sous_programmes
+
+declaration_var = declaration_var var liste_identificateurs : int ; | epsilon
+
+liste_identificateurs = id | liste_identificateurs , id
+
+declaration_sous_programmes = declaration_sous_programmes declaration_sous_programme ; | epsilon
+
+declaration_sous_programme = entete_sous_programme declaration instruction_composee
+
+entete_sous_programme = func id arguments : int ; | proc id arguments ;
+
+arguments = ( liste_parametres ) | epsilon
+
+liste_parametres = parametre | liste_parametres ; parametre
+
+parametre = id : int | var id : int
+
+instruction_composee = { instructions_optionelles }
+
+instructions_optionelles = liste_instructions | epsilon
+
+liste_instructions = instruction | liste_instructions ; instruction
+
+instruction = id opaffect expression | id ( liste_expressions ) | instruction_composee | if expression then instruction else instruction | while expression do instruction ;
+
+liste_expressions = expression | liste_expressions , expression
+
+expression = expression_simple | expression_simple oprel expression_simple
+
+expression_simple = terme | signe terme | expression_simple opadd terme
+
+terme = facteur | terme opmul facteur
+
+facteur = id | id ( liste_expressions ) | nb | ( expression ) | not facteur
+
+opadd = signe | or
